@@ -1,65 +1,75 @@
 /* ==========================================================
    TRADING JOURNAL PRO
-   Script v0.2
+   Script v0.3
 ========================================================== */
 
 const App = {
 
+    /* ======================================================
+       STATE
+    ====================================================== */
+
     state: {
 
-    trades: [],
+        trades: [],
 
-    selectedDate: null,
+        selectedDate: null,
 
-    currentMonth: new Date().getMonth(),
+        currentMonth: new Date().getMonth(),
 
-    currentYear: new Date().getFullYear(),
+        currentYear: new Date().getFullYear(),
 
-    performanceView: "Capital"
-
-},
-
-    init() {
-
-        this.storage.load();
-
-        this.clock.start();
-
-        this.form.events();
-
-        this.refresh();
+        performanceView: "Capital"
 
     },
 
-    refresh() {
+    /* ======================================================
+       MÓDULOS
+    ====================================================== */
 
-    this.calendar.render();
+    /* ======================================================
+   STORAGE
+====================================================== */
 
-    this.history.render();
+storage: {
 
-},
+    key: "tradingJournal",
 
-    /* ====================================================== */
+    load() {
 
-    storage: {
+        try {
 
-        load() {
+            const data = localStorage.getItem(this.key);
 
-            const data = localStorage.getItem("tradingJournal");
+            if (!data) {
 
-            if (data) {
+                App.state.trades = [];
 
-                App.state.trades = JSON.parse(data);
+                return;
 
             }
 
-        },
+            App.state.trades = JSON.parse(data);
 
-        save() {
+        }
+
+        catch (error) {
+
+            console.error("Erro ao carregar os dados:", error);
+
+            App.state.trades = [];
+
+        }
+
+    },
+
+    save() {
+
+        try {
 
             localStorage.setItem(
 
-                "tradingJournal",
+                this.key,
 
                 JSON.stringify(App.state.trades)
 
@@ -67,9 +77,156 @@ const App = {
 
         }
 
+        catch (error) {
+
+            console.error("Erro ao salvar os dados:", error);
+
+        }
+
     },
 
-/* ======================================================
+    clear() {
+
+        localStorage.removeItem(this.key);
+
+        App.state.trades = [];
+
+    }
+
+},
+
+    /* ======================================================
+   UTILS
+====================================================== */
+
+utils: {
+
+    id(id) {
+
+        return document.getElementById(id);
+
+    },
+
+    qs(selector) {
+
+        return document.querySelector(selector);
+
+    },
+
+    qsa(selector) {
+
+        return document.querySelectorAll(selector);
+
+    },
+
+    formatCurrency(value = 0) {
+
+        return `$ ${Number(value).toFixed(2)}`;
+
+    },
+
+    formatDate(date) {
+
+        if (!date) return "";
+
+        return new Date(date).toLocaleDateString("pt-BR");
+
+    },
+
+    today() {
+
+        return new Date().toISOString().split("T")[0];
+
+    },
+
+    createId() {
+
+        return Date.now();
+
+    },
+
+    clone(data) {
+
+        return JSON.parse(JSON.stringify(data));
+
+    },
+
+    sortTrades(trades) {
+
+        return [...trades].sort(
+
+            (a, b) => new Date(b.date) - new Date(a.date)
+
+        );
+
+    },
+
+    monthName(month) {
+
+        const months = [
+
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"
+
+        ];
+
+        return months[month];
+
+    },
+
+    formatCalendarDate(year, month, day) {
+
+        return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+    },
+
+    isToday(date) {
+
+        return date === this.today();
+
+    },
+
+    sum(values) {
+
+        return values.reduce(
+
+            (total, value) => total + Number(value),
+
+            0
+
+        );
+
+    },
+
+    average(values) {
+
+        if (!values.length) return 0;
+
+        return this.sum(values) / values.length;
+
+    },
+
+    percent(value, total) {
+
+        if (total === 0) return 0;
+
+        return (value / total) * 100;
+
+    }
+
+},
+
+    /* ======================================================
    TRADE
 ====================================================== */
 
@@ -99,6 +256,42 @@ trade: {
 
     },
 
+    update(updatedTrade) {
+
+        const index = App.state.trades.findIndex(
+
+            trade => trade.id === updatedTrade.id
+
+        );
+
+        if (index === -1) return false;
+
+        App.state.trades[index] = updatedTrade;
+
+        App.storage.save();
+
+        App.refresh();
+
+        return true;
+
+    },
+
+    getAll() {
+
+        return App.utils.clone(App.state.trades);
+
+    },
+
+    getById(id) {
+
+        return App.state.trades.find(
+
+            trade => trade.id === id
+
+        ) || null;
+
+    },
+
     getByDate(date) {
 
         return App.state.trades.filter(
@@ -107,349 +300,46 @@ trade: {
 
         );
 
-    },
-
-    getDayResult(date) {
-
-        const trades = this.getByDate(date);
-
-        return trades.reduce(
-
-            (total, trade) => total + trade.result,
-
-            0
-
-        );
-
-    },
-
-    getDayCount(date) {
-
-        return this.getByDate(date).length;
-
-    },
-
-    getDayData(date) {
-
-        const trades = this.getByDate(date);
-
-        const result = this.getDayResult(date);
-
-        return {
-
-            trades,
-
-            count: trades.length,
-
-            result,
-
-            positive: result > 0,
-
-            negative: result < 0,
-
-            neutral: result === 0
-
-        };
-
     }
 
 },
 
-    /* ====================================================== */
+    clock: {},
 
-    clock: {
+    form: {},
 
-        start() {
+    calendar: {},
 
-            this.update();
+    history: {},
 
-            setInterval(() => {
+    kpi: {},
 
-                this.update();
+    summary: {},
 
-            }, 1000);
+    charts: {},
 
-        },
+    coach: {},
 
-        update() {
+    propFirm: {},
 
-            const now = new Date();
-
-            const date = now.toLocaleDateString("pt-BR");
-
-            const time = now.toLocaleTimeString("pt-BR");
-
-            const dateEl = document.getElementById("currentDate");
-
-            const timeEl = document.getElementById("currentTime");
-
-            if (dateEl) dateEl.textContent = date;
-
-            if (timeEl) timeEl.textContent = time;
-
-        }
-
-    },
-
-    /* ====================================================== */
-
-    form: {
-
-        events() {
-
-            const form = document.getElementById("tradeForm");
-
-            form.addEventListener("submit", function (e) {
-
-                e.preventDefault();
-
-                App.form.save();
-
-            });
-
-        },
-
-        save() {
-
-            const trade = {
-
-                id: Date.now(),
-
-                date: document.getElementById("tradeDate").value,
-
-                account: document.getElementById("account").value,
-
-                market: document.getElementById("market").value,
-
-                asset: document.getElementById("asset").value,
-
-                setup: document.getElementById("setup").value,
-
-                side: document.getElementById("side").value,
-
-                contracts: Number(document.getElementById("contracts").value),
-
-                result: Number(document.getElementById("result").value),
-
-                notes: document.getElementById("notes").value
-
-            };
-
-            if (!trade.date) {
-
-                alert("Informe a data.");
-
-                return;
-
-            }
-
-            App.trade.add(trade);
-
-            document.getElementById("tradeForm").reset();
-
-        }
-
-    },
-
-        /* ======================================================
-       HISTORY
+    /* ======================================================
+       REFRESH
     ====================================================== */
 
-    history: {
-
-        render() {
-
-            const tbody = document.getElementById("historyTable");
-
-            tbody.innerHTML = "";
-
-            let trades = [...App.state.trades];
-
-            // Futuramente filtrará pelo calendário
-            if (App.state.selectedDate) {
-
-                trades = trades.filter(
-
-                    trade => trade.date === App.state.selectedDate
-
-                );
-
-            }
-
-            trades
-
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-
-                .forEach(trade => {
-
-                    const tr = document.createElement("tr");
-
-                    const color = trade.result >= 0
-
-                        ? "positive"
-
-                        : "negative";
-
-                    tr.innerHTML = `
-
-                        <td>${trade.date}</td>
-
-                        <td>${trade.account}</td>
-
-                        <td>${trade.asset}</td>
-
-                        <td>${trade.setup}</td>
-
-                        <td class="${color}">
-
-                            $ ${trade.result.toFixed(2)}
-
-                        </td>
-
-                        <td>
-
-                            <button onclick="App.history.remove(${trade.id})">
-
-                                Excluir
-
-                            </button>
-
-                        </td>
-
-                    `;
-
-                    tbody.appendChild(tr);
-
-                });
-
-        },
-
-        remove(id) {
-
-            if (!confirm("Excluir este trade?")) return;
-
-            App.trade.remove(id);
-
-        }
+    refresh() {
 
     },
 
     /* ======================================================
-       CALENDAR
+       INIT
     ====================================================== */
 
-    calendar: {
-
-        init() {
-
-        },
-
-        render() {
-
-        this.renderHeader();
-
-        this.renderDays();
-
-        },
-
-        renderHeader() {
-
-    const meses = [
-
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro"
-
-    ];
-
-    const titulo = document.getElementById("monthLabel");
-
-    titulo.textContent = `${meses[App.state.currentMonth]} ${App.state.currentYear}`;
-
-},
-
-        renderDays() {
-
-    const calendar = document.getElementById("calendar");
-
-    calendar.innerHTML = "";
-
-    const year = App.state.currentYear;
-
-    const month = App.state.currentMonth;
-
-    const firstDay = new Date(year, month, 1).getDay();
-
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    // Espaços antes do primeiro dia
-
-    for (let i = 0; i < firstDay; i++) {
-
-        const empty = document.createElement("div");
-
-        empty.className = "calendar-empty";
-
-        calendar.appendChild(empty);
-
-    }
-
-    // Dias do mês
-
-    for (let day = 1; day <= daysInMonth; day++) {
-
-        const cell = document.createElement("div");
-
-        cell.className = "calendar-day";
-
-        cell.innerHTML = `
-
-            <strong>${day}</strong>
-
-        `;
-
-        calendar.appendChild(cell);
-
-    }
-
-},
-
-        nextMonth() {
-
-        },
-
-        prevMonth() {
-
-        },
-
-        selectDay(date) {
-
-        },
-
-        events() {
-
-        }
+    init() {
 
     }
 
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    App.init();
-
-});
-
-    
 /* ========================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -457,3 +347,4 @@ document.addEventListener("DOMContentLoaded", () => {
     App.init();
 
 });
+
