@@ -69,35 +69,91 @@ const App = {
 
     },
 
-    /* ====================================================== */
+/* ======================================================
+   TRADE
+====================================================== */
 
-    trade: {
+trade: {
 
-        add(trade) {
+    add(trade) {
 
-            App.state.trades.push(trade);
+        App.state.trades.push(trade);
 
-            App.storage.save();
+        App.storage.save();
 
-            App.refresh();
-
-        },
-
-        remove(id) {
-
-            App.state.trades = App.state.trades.filter(
-
-                trade => trade.id !== id
-
-            );
-
-            App.storage.save();
-
-            App.refresh();
-
-        }
+        App.refresh();
 
     },
+
+    remove(id) {
+
+        App.state.trades = App.state.trades.filter(
+
+            trade => trade.id !== id
+
+        );
+
+        App.storage.save();
+
+        App.refresh();
+
+    },
+
+    getByDate(date) {
+
+        return App.state.trades.filter(
+
+            trade => trade.date === date
+
+        );
+
+    },
+
+    getDayResult(date) {
+
+        const trades = this.getByDate(date);
+
+        return trades.reduce(
+
+            (total, trade) => total + trade.result,
+
+            0
+
+        );
+
+    },
+
+    getDayCount(date) {
+
+        return this.getByDate(date).length;
+
+    },
+
+    getDayData(date) {
+
+        const trades = this.getByDate(date);
+
+        const result = this.getDayResult(date);
+
+        return {
+
+            trades,
+
+            count: trades.length,
+
+            result,
+
+            positive: result > 0,
+
+            negative: result < 0,
+
+            neutral: result === 0
+
+        };
+
+    }
+
+},
 
     /* ====================================================== */
 
