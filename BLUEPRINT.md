@@ -1,253 +1,143 @@
-TRADING JOURNAL PRO
-Blueprint v2.0
-
-Autor: Miriam Rodrigues + ChatGPT
-
-Objetivo: Construir um Dashboard de Performance Profissional para Traders de Mercado Futuro Americano e Prop Firms.
-
-1. MISSÃO
-
-Criar um Dashboard único, rápido e extremamente organizado que concentre todas as informações importantes sobre a performance do trader em uma única tela.
-
-O sistema não executa operações.
-
-O sistema não gera sinais.
-
-O sistema não analisa mercado.
-
-O sistema apenas organiza e apresenta informações para análise da performance operacional.
-
-2. FILOSOFIA
-
-O projeto deve seguir cinco princípios.
-
-Simples
-
-Abrir.
-
-Lançar.
-
-Consultar.
-
-Nada além disso.
-
-Rápido
-
-Cadastrar um trade deve levar menos de 20 segundos.
-
-Consultar qualquer informação deve levar menos de 5 segundos.
-
-Visual
-
-Quase todas as informações importantes devem aparecer em gráficos, indicadores ou cores.
-
-Pouco texto.
-
-Muita leitura visual.
-
-Objetivo
-
-Cada informação exibida deve responder uma pergunta.
-
-Exemplos:
-
-Quanto ganhei hoje?
-
-Qual meu melhor setup?
-
-Qual conta performou melhor?
-
-Quanto falta para atingir a meta?
-
-Como está minha curva?
-
-Tudo em uma página
-
-Nunca haverá:
-
-segunda página
-menu lateral
-telas escondidas
-abas complexas
-
-Todo o sistema ficará em uma única tela com rolagem vertical.
-
-3. TECNOLOGIAS
-
-Apenas:
-
-HTML
-
-CSS
-
-JavaScript
-
-Chart.js
-
-LocalStorage
-
-Nada mais.
-
-Sem backend.
-
-Sem banco SQL.
-
-Sem React.
-
-Sem Vue.
-
-Sem Bootstrap.
-
-Sem Tailwind.
-
-4. ESTRUTURA DO PROJETO
-TradingJournal/
-
-index.html
-
-style.css
-
-script.js
-
-blueprint.md
-
-Apenas quatro arquivos.
-
-5. LAYOUT
-
-A página será composta nesta ordem.
-
-HEADER
-
-↓
-
-KPIs
-
-↓
-
-Resumo Mensal
-
-↓
-
-Calendário
-
-↓
-
-Curva de Capital
-
-↓
-
-Performance
-
-↓
-
-Cadastro Trade
-
-↓
-
-Coach
-
-↓
-
-Histórico
-
-↓
-
-Prop Firm
-
-Sempre nessa sequência.
-
-6. HEADER
-
-Deve conter:
-
-Nome do sistema
-
-Data
-
-Hora
-
-Botão Exportar Backup
-
-Botão Importar Backup
-
-Nada mais.
-
-7. KPIs
-
-Sempre visíveis.
-
-Serão:
-
-Health Score
-
-FTAR
-
-PNL Hoje
-
-PNL Semana
-
-PNL Mês
-
-PNL Total
-
-Win Rate
-
-Payoff
-
-Profit Factor
-
-Drawdown
-
-Meta
-
-Status Prop Firm
-
-Esses KPIs nunca terão edição manual.
-
-Serão sempre calculados.
-
-8. RESUMO MENSAL
-
-Mostrar:
-
-Dias positivos
-
-Dias negativos
-
-Dias OFF
-
-Resultado acumulado
-
-Maior Gain
-
-Maior Loss
-
-Quantidade de Trades
-
-9. CALENDÁRIO
-
-Este será o coração do sistema.
-
-Cada dia mostrará:
-
-15
-
-+$420
-
-3 Trades
-
-ou
-
-15
-
--$180
-
-2 Trades
-
-ou
-
-15
+# Trading Journal Pro - Blueprint
+
+Versão: 1.1
+Data: 2026-06-28
+
+## 1. Visão do projeto
+O Trading Journal Pro é um dashboard web single-page para organizar e analisar a performance operacional de trades de forma rápida, visual e sem backend. O objetivo é concentrar em uma única tela os principais indicadores, o histórico de trades e os dados de performance para tomada de decisão.
+
+## 2. Objetivo principal
+Permitir que o usuário:
+- cadastre trades em poucos segundos;
+- visualize o desempenho diário, semanal, mensal e total;
+- acompanhe o comportamento do capital ao longo do tempo;
+- identifique padrões por conta, setup, mercado, ativo e resultado;
+- mantenha os dados salvos localmente no navegador.
+
+## 3. Princípios de produto
+- Simplicidade: interface direta, sem menus complexos;
+- Velocidade: cadastro e consulta rápidos;
+- Visualização: gráficos, KPIs e cores em vez de textos excessivos;
+- Centralização: tudo em uma única página;
+- Automação: métricas calculadas automaticamente.
+
+## 4. Stack tecnológica
+- HTML5 para estrutura;
+- CSS3 para visual e responsividade;
+- JavaScript puro para lógica da aplicação;
+- Chart.js para gráficos;
+- LocalStorage para persistência local;
+- Sem backend, sem banco SQL, sem frameworks.
+
+## 5. Estrutura de arquivos
+- index.html: estrutura principal da interface;
+- style.css: estilo visual, layout e componentes;
+- script.js: lógica principal do app, estado, renderização, cálculos e interação;
+- app.js: arquivo complementar ou futuro módulo de organização;
+- BLUEPRINT.md: documentação do projeto;
+- README.md: instruções gerais.
+
+## 6. Estrutura da interface
+A página deve seguir este fluxo:
+1. Header
+2. KPIs
+3. Resumo mensal
+4. Calendário
+5. Curva de capital
+6. Performance
+7. Formulário de cadastro de trade
+8. Coach
+9. Histórico
+10. Prop Firm
+
+## 7. Módulos principais
+### 7.1 Header
+Exibir:
+- nome do sistema;
+- data atual;
+- hora atual;
+- ações de backup/importação (futuro).
+
+### 7.2 KPIs
+Exibir métricas calculadas automaticamente:
+- PNL Hoje
+- PNL Semana
+- PNL Mês
+- PNL Total
+- Win Rate
+- Payoff
+- Profit Factor
+- Drawdown
+
+### 7.3 Calendário
+Representar os dias com trades cadastrados e mostrar resumos rápidos como:
+- valor do dia;
+- quantidade de trades;
+- indicação positiva ou negativa.
+
+### 7.4 Curva de capital
+Exibir evolução do capital ao longo do tempo com gráfico.
+
+### 7.5 Performance
+Mostrar comparativos por métrica, como:
+- capital;
+- win rate;
+- payoff;
+- profit factor;
+- drawdown.
+
+### 7.6 Formulário de trade
+Campos principais:
+- data;
+- conta;
+- mercado;
+- ativo;
+- setup;
+- lado;
+- contratos;
+- resultado;
+- observações.
+
+### 7.7 Coach
+Seção destinada a insights, alertas ou orientações operacionais com base nos dados do usuário.
+
+### 7.8 Histórico
+Listar os trades cadastrados com filtro e visualização organizada.
+
+## 8. Modelo de dados
+Cada trade deve possuir, no mínimo, os seguintes campos:
+- id
+- date
+- account
+- market
+- asset
+- setup
+- side
+- contracts
+- result
+- notes
+
+## 9. Regras de negócio
+- O sistema não executa operações nem gera sinais;
+- O sistema apenas organiza e apresenta informações;
+- Todos os dados devem ser persistidos localmente;
+- Métricas devem ser recalculadas automaticamente após cada cadastro ou remoção;
+- A experiência deve funcionar em uma única tela com rolagem vertical.
+
+## 10. Fluxo de uso
+1. O usuário cadastra um trade;
+2. Os dados são salvos no LocalStorage;
+3. Os KPIs, resumo mensal e gráficos são recalculados;
+4. A interface é atualizada automaticamente;
+5. O usuário consulta a performance a partir do calendário, gráficos e histórico.
+
+## 11. Próximos passos sugeridos
+- implementar cadastro e remoção de trades de forma completa;
+- calcular corretamente win rate, payoff, profit factor e drawdown;
+- renderizar o calendário com resumo diário;
+- exibir histórico com filtros;
+- adicionar exportação/importação de backup;
+- criar uma camada de coach com insights mais úteis.
 
 OFF
 
