@@ -33,9 +33,11 @@ const App = {
 
     refresh() {
 
-        this.history.render();
+    this.calendar.render();
 
-    },
+    this.history.render();
+
+},
 
     /* ====================================================== */
 
@@ -288,15 +290,82 @@ const App = {
 
         render() {
 
+        this.renderHeader();
+
+        this.renderDays();
+
         },
 
         renderHeader() {
 
-        },
+    const meses = [
+
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+
+    ];
+
+    const titulo = document.getElementById("monthLabel");
+
+    titulo.textContent = `${meses[App.state.currentMonth]} ${App.state.currentYear}`;
+
+},
 
         renderDays() {
 
-        },
+    const calendar = document.getElementById("calendar");
+
+    calendar.innerHTML = "";
+
+    const year = App.state.currentYear;
+
+    const month = App.state.currentMonth;
+
+    const firstDay = new Date(year, month, 1).getDay();
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Espaços antes do primeiro dia
+
+    for (let i = 0; i < firstDay; i++) {
+
+        const empty = document.createElement("div");
+
+        empty.className = "calendar-empty";
+
+        calendar.appendChild(empty);
+
+    }
+
+    // Dias do mês
+
+    for (let day = 1; day <= daysInMonth; day++) {
+
+        const cell = document.createElement("div");
+
+        cell.className = "calendar-day";
+
+        cell.innerHTML = `
+
+            <strong>${day}</strong>
+
+        `;
+
+        calendar.appendChild(cell);
+
+    }
+
+},
 
         nextMonth() {
 
