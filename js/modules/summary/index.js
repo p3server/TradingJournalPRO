@@ -4,10 +4,10 @@
    INDEX.JS
 ========================================================== */
 
-import { Statistics } from "../statistics/index.js";
+import * as MonthlySummary from "./monthly.js";
+import * as YearlySummary from "./yearly.js";
 
-import { MonthlySummary } from "./monthly.js";
-import { YearlySummary } from "./yearly.js";
+import { State } from "../../state.js";
 
 /* ==========================================================
    SUMMARY
@@ -16,7 +16,7 @@ import { YearlySummary } from "./yearly.js";
 export const Summary = {
 
     /* ======================================================
-       INICIALIZAÇÃO
+       INIT
     ====================================================== */
 
     init() {
@@ -31,11 +31,31 @@ export const Summary = {
 
     render() {
 
-        const dashboard = Statistics.getDashboard();
+        const trades = State.getTrades();
 
-        MonthlySummary.render(dashboard);
+        this.#execute(
+            MonthlySummary,
+            [
+                "render",
+                "renderMonthly",
+                "calculate",
+                "calculateMonthlySummary",
+                "generate"
+            ],
+            trades
+        );
 
-        YearlySummary.render(dashboard);
+        this.#execute(
+            YearlySummary,
+            [
+                "render",
+                "renderYearly",
+                "calculate",
+                "calculateYearlySummary",
+                "generate"
+            ],
+            trades
+        );
 
     },
 
@@ -50,12 +70,27 @@ export const Summary = {
     },
 
     /* ======================================================
-       DADOS
+       EXECUTOR
     ====================================================== */
 
-    getDashboard() {
+    #execute(module, methods, trades) {
 
-        return Statistics.getDashboard();
+        for (const method of methods) {
+
+            if (typeof module[method] === "function") {
+
+                return module[method](trades);
+
+            }
+
+        }
+
+        console.warn(
+            "Summary: nenhuma função encontrada em",
+            module
+        );
+
+        return null;
 
     }
 

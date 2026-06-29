@@ -4,10 +4,10 @@
    INDEX.JS
 ========================================================== */
 
-import { Statistics } from "../statistics/index.js";
+import * as KPICards from "./cards.js";
+import * as KPIRender from "./render.js";
 
-import { KPICards } from "./cards.js";
-import { KPIRender } from "./render.js";
+import { State } from "../../state.js";
 
 /* ==========================================================
    KPI
@@ -16,7 +16,7 @@ import { KPIRender } from "./render.js";
 export const KPI = {
 
     /* ======================================================
-       INICIALIZAÇÃO
+       INIT
     ====================================================== */
 
     init() {
@@ -31,11 +31,29 @@ export const KPI = {
 
     render() {
 
-        const dashboard = Statistics.getDashboard();
+        const trades = State.getTrades();
 
-        KPICards.update(dashboard);
+        this.#execute(
+            KPICards,
+            [
+                "render",
+                "renderCards",
+                "update",
+                "calculate",
+                "calculateKPI"
+            ],
+            trades
+        );
 
-        KPIRender.render(dashboard);
+        this.#execute(
+            KPIRender,
+            [
+                "render",
+                "update",
+                "refresh"
+            ],
+            trades
+        );
 
     },
 
@@ -46,6 +64,31 @@ export const KPI = {
     refresh() {
 
         this.render();
+
+    },
+
+    /* ======================================================
+       EXECUTOR
+    ====================================================== */
+
+    #execute(module, methods, trades) {
+
+        for (const method of methods) {
+
+            if (typeof module[method] === "function") {
+
+                return module[method](trades);
+
+            }
+
+        }
+
+        console.warn(
+            "KPI: nenhuma função encontrada em",
+            module
+        );
+
+        return null;
 
     }
 

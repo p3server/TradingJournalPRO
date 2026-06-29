@@ -4,11 +4,11 @@
    INDEX.JS
 ========================================================== */
 
-import { Trade } from "../trade/index.js";
+import { State } from "../../state.js";
 
-import { HistoryFilters } from "./filters.js";
-import { HistoryActions } from "./actions.js";
-import { HistoryRender } from "./render.js";
+import * as HistoryRender from "./render.js";
+import * as HistoryFilters from "./filters.js";
+import * as HistoryActions from "./actions.js";
 
 /* ==========================================================
    HISTORY
@@ -17,12 +17,10 @@ import { HistoryRender } from "./render.js";
 export const History = {
 
     /* ======================================================
-       INICIALIZAÇÃO
+       INIT
     ====================================================== */
 
     init() {
-
-        HistoryActions.init();
 
         this.render();
 
@@ -34,11 +32,25 @@ export const History = {
 
     render() {
 
-        const trades = Trade.getAll();
+        const trades = State.getTrades();
 
-        const filteredTrades = HistoryFilters.apply(trades);
+        if (typeof HistoryRender.render === "function") {
 
-        HistoryRender.render(filteredTrades);
+            HistoryRender.render(trades);
+
+            return;
+
+        }
+
+        if (typeof HistoryRender.renderHistory === "function") {
+
+            HistoryRender.renderHistory(trades);
+
+            return;
+
+        }
+
+        console.warn("History: nenhuma função de render encontrada.");
 
     },
 
@@ -53,23 +65,15 @@ export const History = {
     },
 
     /* ======================================================
-       FILTROS
+       FILTERS
     ====================================================== */
 
-    clearFilters() {
+    filters: HistoryFilters,
 
-        HistoryFilters.clear();
+    /* ======================================================
+       ACTIONS
+    ====================================================== */
 
-        this.render();
-
-    },
-
-    applyFilters(filters) {
-
-        HistoryFilters.set(filters);
-
-        this.render();
-
-    }
+    actions: HistoryActions
 
 };

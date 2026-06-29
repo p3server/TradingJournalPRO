@@ -4,174 +4,100 @@
    INDEX.JS
 ========================================================== */
 
-import { serializeForm } from "./serializer.js";
-import { validateForm } from "./validation.js";
-
-import { Trade } from "../trade/index.js";
+import * as FormEvents from "./events.js";
+import * as FormValidation from "./validation.js";
+import * as FormSerializer from "./serializer.js";
 
 /* ==========================================================
    FORM
 ========================================================== */
 
-let editingTradeId = null;
-
 export const Form = {
 
     /* ======================================================
-       INICIALIZAÇÃO
+       INIT
     ====================================================== */
 
     init() {
 
-        const form = document.querySelector("#tradeForm");
-
-        if (!form) {
-
-            console.warn("TradeForm não encontrado.");
-
-            return;
-
-        }
-
-        form.addEventListener(
-
-            "submit",
-
-            this.handleSubmit.bind(this)
-
+        this.#execute(
+            FormEvents,
+            [
+                "init",
+                "initFormEvents",
+                "register",
+                "start"
+            ]
         );
 
-        const cancelButton = document.querySelector("#cancelEdit");
+    },
 
-        if (cancelButton) {
+    /* ======================================================
+       REFRESH
+    ====================================================== */
 
-            cancelButton.addEventListener(
+    refresh() {
 
-                "click",
-
-                () => this.reset()
-
-            );
-
-        }
+        // reservado para futuras atualizações
 
     },
 
     /* ======================================================
-       SUBMIT
+       VALIDATE
     ====================================================== */
 
-    handleSubmit(event) {
+    validate(data) {
 
-        event.preventDefault();
-
-        const form = event.target;
-
-        const trade = serializeForm(form);
-
-        const validation = validateForm(trade);
-
-        if (!validation.valid) {
-
-            console.warn(validation.errors);
-
-            return;
-
-        }
-
-        if (editingTradeId !== null) {
-
-            Trade.update(
-
-                editingTradeId,
-
-                trade
-
-            );
-
-        } else {
-
-            Trade.add(trade);
-
-        }
-
-        this.reset();
+        return this.#execute(
+            FormValidation,
+            [
+                "validate",
+                "validateTrade"
+            ],
+            data
+        );
 
     },
 
     /* ======================================================
-       EDITAR
+       SERIALIZE
     ====================================================== */
 
-    edit(id, trade) {
+    serialize(formElement) {
 
-        editingTradeId = id;
+        return this.#execute(
+            FormSerializer,
+            [
+                "serialize",
+                "serializeForm"
+            ],
+            formElement
+        );
 
-        Object.keys(trade).forEach(key => {
+    },
 
-            const field = document.querySelector(
+    /* ======================================================
+       EXECUTOR
+    ====================================================== */
 
-                `[name="${key}"]`
+    #execute(module, methods, ...args) {
 
-            );
+        for (const method of methods) {
 
-            if (field) {
+            if (typeof module[method] === "function") {
 
-                field.value = trade[key];
+                return module[method](...args);
 
             }
 
-        });
-
-        const button = document.querySelector("#submitButton");
-
-        if (button) {
-
-            button.textContent = "Atualizar";
-
         }
 
-    },
+        console.warn(
+            "Form: nenhuma função encontrada em",
+            module
+        );
 
-    /* ======================================================
-       RESET
-    ====================================================== */
-
-    reset() {
-
-        const form = document.querySelector("#tradeForm");
-
-        if (form) {
-
-            form.reset();
-
-        }
-
-        editingTradeId = null;
-
-        const button = document.querySelector("#submitButton");
-
-        if (button) {
-
-            button.textContent = "Salvar";
-
-        }
-
-    },
-
-    /* ======================================================
-       ESTADO
-    ====================================================== */
-
-    isEditing() {
-
-        return editingTradeId !== null;
-
-    },
-
-    getEditingId() {
-
-        return editingTradeId;
+        return null;
 
     }
 

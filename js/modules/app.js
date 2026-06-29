@@ -3,186 +3,148 @@
    APP.JS
 ========================================================== */
 
+/*
+    Responsabilidade:
+
+    - Inicializar toda a aplicação.
+    - Coordenar os módulos.
+    - Registrar eventos globais.
+    - Atualizar a interface.
+
+    Não contém regras de negócio.
+*/
 
 import { Storage } from "./storage.js";
 import { Clock } from "./clock.js";
 
-
-import { initFormEvents } from "./modules/form/events.js";
-
-
+import { Form } from "./modules/form/index.js";
+import { Calendar } from "./modules/calendar/index.js";
+import { History } from "./modules/history/index.js";
+import { KPI } from "./modules/kpi/index.js";
+import { Summary } from "./modules/summary/index.js";
+import { Charts } from "./modules/charts/index.js";
+import { Coach } from "./modules/coach/index.js";
+import { PropFirm } from "./modules/propFirm/index.js";
 
 /* ==========================================================
    APP
 ========================================================== */
 
-
 export const App = {
 
-
+    /* ======================================================
+       INIT
+    ====================================================== */
 
     init() {
 
-
         console.clear();
 
-
-
-        console.log(
-            "======================================="
-        );
-
-        console.log(
-            " Trading Journal Pro"
-        );
-
-        console.log(
-            " Inicializando aplicação..."
-        );
-
-        console.log(
-            "======================================="
-        );
-
-
+        console.log("======================================");
+        console.log(" Trading Journal Pro");
+        console.log(" Inicializando...");
+        console.log("======================================");
 
         Storage.load();
 
-
-
         Clock.start();
 
+        Form.init();
 
+        Calendar.init();
 
-        initFormEvents();
+        History.init();
 
+        KPI.init();
 
+        Summary.init();
 
-        this.events();
+        Charts.init();
 
+        Coach.init();
 
+        PropFirm.init();
+
+        this.registerEvents();
 
         this.refresh();
 
-
-
-        console.log(
-            "Aplicação iniciada com sucesso."
-        );
-
+        console.log("Aplicação inicializada.");
 
     },
-
-
-
-
 
     /* ======================================================
        REFRESH
     ====================================================== */
 
-
     refresh() {
 
+        Calendar.refresh();
 
+        History.refresh();
 
-        /*
-            Future modules:
+        KPI.refresh();
 
-            History.render();
+        Summary.refresh();
 
-            Calendar.render();
+        Charts.refresh();
 
-            KPI.render();
+        Coach.refresh();
 
-            Summary.render();
-
-            Charts.render();
-
-            Coach.render();
-
-            PropFirm.render();
-
-        */
-
-
-
-        console.log(
-            "Interface atualizada."
-        );
-
+        PropFirm.refresh();
 
     },
 
-
-
-
-
-
     /* ======================================================
-       EVENTS
+       EVENTOS GLOBAIS
     ====================================================== */
 
+    registerEvents() {
 
-    events() {
+        const events = [
 
-
-
-        document.addEventListener(
             "trade:added",
-            () => {
 
-                this.refresh();
-
-            }
-        );
-
-
-
-        document.addEventListener(
             "trade:updated",
-            () => {
 
-                this.refresh();
-
-            }
-        );
-
-
-
-        document.addEventListener(
             "trade:removed",
-            () => {
 
-                this.refresh();
+            "trade:duplicated"
 
-            }
-        );
+        ];
 
+        events.forEach(event => {
 
+            document.addEventListener(
 
-        document.addEventListener(
-            "trade:duplicated",
-            () => {
+                event,
 
-                this.refresh();
+                () => {
 
-            }
-        );
+                    this.refresh();
 
+                }
 
+            );
+
+        });
 
     }
 
-
-
 };
 
+/* ==========================================================
+   START
+========================================================== */
+
 document.addEventListener(
+
     "DOMContentLoaded",
+
     () => {
 
         App.init();
 
     }
+
 );

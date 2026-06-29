@@ -4,10 +4,11 @@
    INDEX.JS
 ========================================================== */
 
-import { Statistics } from "../statistics/index.js";
+import * as CapitalChart from "./capital.js";
+import * as PerformanceChart from "./performance.js";
+import * as Helpers from "./helpers.js";
 
-import { CapitalChart } from "./capital.js";
-import { PerformanceChart } from "./performance.js";
+import { State } from "../../state.js";
 
 /* ==========================================================
    CHARTS
@@ -16,7 +17,7 @@ import { PerformanceChart } from "./performance.js";
 export const Charts = {
 
     /* ======================================================
-       INICIALIZAÇÃO
+       INIT
     ====================================================== */
 
     init() {
@@ -31,11 +32,39 @@ export const Charts = {
 
     render() {
 
-        const dashboard = Statistics.getDashboard();
+        const trades = State.getTrades();
 
-        CapitalChart.render(dashboard);
+        const capital =
+            this.#execute(
+                CapitalChart,
+                [
+                    "render",
+                    "generate",
+                    "calculateCapitalChart",
+                    "calculate"
+                ],
+                trades
+            );
 
-        PerformanceChart.render(dashboard);
+        const performance =
+            this.#execute(
+                PerformanceChart,
+                [
+                    "render",
+                    "generate",
+                    "calculatePerformanceChart",
+                    "calculate"
+                ],
+                trades
+            );
+
+        return {
+
+            capital,
+
+            performance
+
+        };
 
     },
 
@@ -45,7 +74,38 @@ export const Charts = {
 
     refresh() {
 
-        this.render();
+        return this.render();
+
+    },
+
+    /* ======================================================
+       HELPERS
+    ====================================================== */
+
+    helpers: Helpers,
+
+    /* ======================================================
+       EXECUTOR
+    ====================================================== */
+
+    #execute(module, methods, trades) {
+
+        for (const method of methods) {
+
+            if (typeof module[method] === "function") {
+
+                return module[method](trades);
+
+            }
+
+        }
+
+        console.warn(
+            "Charts: nenhuma função encontrada em",
+            module
+        );
+
+        return null;
 
     }
 
