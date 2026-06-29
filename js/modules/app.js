@@ -66,6 +66,7 @@ export const App = {
     refresh() {
 
         History.render();
+        import { Calendar } from "./calendar.js";
         /*
             Conforme os módulos forem ficando prontos,
             eles serão chamados aqui.
