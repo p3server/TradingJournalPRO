@@ -54,12 +54,11 @@ Trade
 | Filters    | getBySetup()       | ✅      |
 | Filters    | getWinningTrades() | ✅      |
 | Filters    | getLosingTrades()  | ✅      |
-| Trade      | index.js           | ⬜      |
+| Trade      | index.js           | ✅      |
 
 Próximos módulos
 | Módulo         | Status |
 | -------------- | ------ |
-| Trade/index.js | ⬜      |
 | Form           | ⬜      |
 | Calendar       | ⬜      |
 | History        | ⬜      |

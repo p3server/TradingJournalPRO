@@ -1,386 +1,302 @@
-# Trading Journal Pro - Blueprint
+# Trading Journal Pro - Blueprint Atualizado
 
-Versão: 1.1
+Versão: 1.2
 Data: 2026-06-28
 
-## 1. Visão do projeto
-O Trading Journal Pro é um dashboard web single-page para organizar e analisar a performance operacional de trades de forma rápida, visual e sem backend. O objetivo é concentrar em uma única tela os principais indicadores, o histórico de trades e os dados de performance para tomada de decisão.
-
-## 2. Objetivo principal
-Permitir que o usuário:
-- cadastre trades em poucos segundos;
-- visualize o desempenho diário, semanal, mensal e total;
-- acompanhe o comportamento do capital ao longo do tempo;
-- identifique padrões por conta, setup, mercado, ativo e resultado;
-- mantenha os dados salvos localmente no navegador.
-
-## 3. Princípios de produto
-- Simplicidade: interface direta, sem menus complexos;
-- Velocidade: cadastro e consulta rápidos;
-- Visualização: gráficos, KPIs e cores em vez de textos excessivos;
-- Centralização: tudo em uma única página;
-- Automação: métricas calculadas automaticamente.
-
-## 4. Stack tecnológica
-- HTML5 para estrutura;
-- CSS3 para visual e responsividade;
-- JavaScript puro para lógica da aplicação;
-- Chart.js para gráficos;
-- LocalStorage para persistência local;
-- Sem backend, sem banco SQL, sem frameworks.
-
-## 5. Estrutura de arquivos
-- index.html: estrutura principal da interface;
-- style.css: estilo visual, layout e componentes;
-- script.js: lógica principal do app, estado, renderização, cálculos e interação;
-- app.js: arquivo complementar ou futuro módulo de organização;
-- BLUEPRINT.md: documentação do projeto;
-- README.md: instruções gerais.
-
-## 6. Estrutura da interface
-A página deve seguir este fluxo:
-1. Header
-2. KPIs
-3. Resumo mensal
-4. Calendário
-5. Curva de capital
-6. Performance
-7. Formulário de cadastro de trade
-8. Coach
-9. Histórico
-10. Prop Firm
-
-## 7. Módulos principais
-### 7.1 Header
-Exibir:
-- nome do sistema;
-- data atual;
-- hora atual;
-- ações de backup/importação (futuro).
-
-### 7.2 KPIs
-Exibir métricas calculadas automaticamente:
-- PNL Hoje
-- PNL Semana
-- PNL Mês
-- PNL Total
-- Win Rate
-- Payoff
-- Profit Factor
-- Drawdown
-
-### 7.3 Calendário
-Representar os dias com trades cadastrados e mostrar resumos rápidos como:
-- valor do dia;
-- quantidade de trades;
-- indicação positiva ou negativa.
-
-### 7.4 Curva de capital
-Exibir evolução do capital ao longo do tempo com gráfico.
-
-### 7.5 Performance
-Mostrar comparativos por métrica, como:
-- capital;
-- win rate;
-- payoff;
-- profit factor;
-- drawdown.
-
-### 7.6 Formulário de trade
-Campos principais:
-- data;
-- conta;
-- mercado;
-- ativo;
-- setup;
-- lado;
-- contratos;
-- resultado;
-- observações.
-
-### 7.7 Coach
-Seção destinada a insights, alertas ou orientações operacionais com base nos dados do usuário.
-
-### 7.8 Histórico
-Listar os trades cadastrados com filtro e visualização organizada.
-
-## 8. Modelo de dados
-Cada trade deve possuir, no mínimo, os seguintes campos:
-- id
-- date
-- account
-- market
-- asset
-- setup
-- side
-- contracts
-- result
-- notes
-
-## 9. Regras de negócio
-- O sistema não executa operações nem gera sinais;
-- O sistema apenas organiza e apresenta informações;
-- Todos os dados devem ser persistidos localmente;
-- Métricas devem ser recalculadas automaticamente após cada cadastro ou remoção;
-- A experiência deve funcionar em uma única tela com rolagem vertical.
-
-## 10. Fluxo de uso
-1. O usuário cadastra um trade;
-2. Os dados são salvos no LocalStorage;
-3. Os KPIs, resumo mensal e gráficos são recalculados;
-4. A interface é atualizada automaticamente;
-5. O usuário consulta a performance a partir do calendário, gráficos e histórico.
-
-## 11. Próximos passos sugeridos
-- implementar cadastro e remoção de trades de forma completa;
-- calcular corretamente win rate, payoff, profit factor e drawdown;
-- renderizar o calendário com resumo diário;
-- exibir histórico com filtros;
-- adicionar exportação/importação de backup;
-- criar uma camada de coach com insights mais úteis.
-
-OFF
-
-Cores:
-
-🟢 lucro
-
-🔴 prejuízo
-
-⚪ OFF
-
-Ao clicar em um dia:
-
-Seleciona aquele dia.
-
-Atualiza o dashboard.
-
-Abre o formulário já preenchido.
-
-10. CURVA DE CAPITAL
-
-Sempre mostrará a evolução financeira.
-
-Filtros:
-
-Diário
-
-Semanal
-
-Mensal
-
-Anual
-
-11. PERFORMANCE
-
-Um único gráfico.
-
-Com seletor.
-
-Exemplo:
-
-Capital
-
-Win Rate
-
-Health
-
-Payoff
-
-Profit Factor
-
-Drawdown
-
-Setup
-
-Conta
-
-O gráfico muda conforme a seleção.
-
-12. CADASTRO DE TRADE
-
-Campos mínimos:
-
-Data
-
-Conta
-
-Mercado
-
-Ativo
-
-Setup
-
-Compra/Venda
-
-Contratos
-
-Resultado $
-
-Resultado Pontos
-
-Resultado R
-
-Observação
-
-Botão Salvar
-
-Nada além disso.
-
-13. HISTÓRICO
-
-Tabela.
-
-Colunas:
-
-Data
-
-Conta
-
-Mercado
-
-Setup
-
-Resultado
-
-Editar
-
-Excluir
-
-Filtros:
-
-Data
-
-Conta
-
-Mercado
-
-Setup
-
-14. COACH
-
-Nunca dará sinais.
-
-Apenas mostrará estatísticas.
-
-Exemplo:
-
-Maior lucro ocorreu no setup ORB.
-
-Seu Win Rate aumentou.
-
-Seu melhor dia continua sendo terça-feira.
-
-Seu maior drawdown foi em junho.
-
-15. PROP FIRM
-
-Mostrar apenas informações importantes.
-
-Exemplo:
-
-Meta
-
-Trailing Drawdown
-
-Dias Operados
-
-Dias Restantes
-
-Consistência
-
-Status
-
-16. LOCAL STORAGE
-
-Todos os dados ficarão apenas no navegador.
-
-Não haverá login.
-
-17. BACKUP
-
-Botão:
-
-Exportar JSON
-
-Importar JSON
-
-Assim você nunca perde seus dados.
-
-18. DESIGN
-
-Tema escuro.
-
-Visual inspirado em Bloomberg Terminal, TradingView e painéis profissionais.
-
-Muito espaço.
-
-Poucas cores.
-
-Verde somente para lucro.
-
-Vermelho somente para prejuízo.
-
-Azul para ações.
-
-Cinza para informações neutras.
-
-19. REGRAS DE DESENVOLVIMENTO
-
-Nunca escrever código duplicado.
-
-Cada função deve ter apenas uma responsabilidade.
-
-Nome das funções em português.
-
-Comentários apenas quando realmente necessários.
-
-Código simples.
-
-Código legível.
-
-20. ROADMAP
-Sprint 1 (MVP)
-Estrutura HTML
-Layout CSS
-Calendário
-Cadastro
-LocalStorage
-Histórico
-KPIs básicos
-
-Objetivo: sistema utilizável.
-
-Sprint 2
-Gráficos
-Resumo Mensal
-Filtros
-Estatísticas
-
-Objetivo: análise completa.
-
-Sprint 3
-Health Score
-FTAR
-Coach
-Prop Firm
-Backup JSON
-
-Objetivo: versão 1.0.
-
-21. O QUE NÃO FAREMOS
-
-Para manter o projeto simples e concluí-lo rapidamente, ficam fora da versão 1.0:
-
-❌ Login de usuários
-❌ Banco de dados
-❌ Backend
-❌ API de corretoras
-❌ Atualização em tempo real
-❌ Integração com plataformas de trading
-❌ Inteligência artificial
-❌ Sistema multiusuário
-❌ Várias páginas
-❌ Frameworks JavaScript
-
-Esses itens só serão considerados em versões futuras, se realmente fizerem sentido.
+## 1. Visão atual do projeto
+Trading Journal Pro é um dashboard web single-page focado em organizar e analisar a performance de trades com simplicidade e velocidade. A aplicação deve ser um indicador visual, sem backend e com todos os dados gravados localmente no navegador.
+
+## 2. Objetivo do produto
+Entregar um painel único que permita:
+- cadastrar trades rapidamente;
+- visualizar os principais KPIs de performance;
+- navegar pelo histórico diário via calendário;
+- acompanhar a evolução do capital;
+- consultar resultados por conta, setup e período;
+- manter os dados persistidos em LocalStorage.
+
+## 3. Estado atual da implementação
+### 3.1 Arquivos e estrutura existentes
+- `index.html`: interface completa com header, KPIs, calendário, resumo mensal, gráficos, cadastro de trade, coach, histórico e seção Prop Firm.
+- `style.css`: importa módulos de estilo organizados em `css/` (`base.css`, `layout.css`, `cards.css`, `calendar.css`, `form.css`, `table.css`, `charts.css`, `responsive.css`).
+- `js/app.js`: módulo principal de inicialização e refresh.
+- `js/modules/`: arquitetura modular com módulos independentes.
+- `BLUEPRINT.md`: documento de referência do projeto.
+- `PROJECT_STATUS.md`, `ROADMAP.md`, `ARCHITECTURE.md`, `MODULES.md`: documentação e status do projeto.
+
+### 3.2 Principais módulos implementados
+- `js/modules/state.js`: armazenamento central do estado da aplicação.
+- `js/modules/storage.js`: persistência em LocalStorage, import/export JSON e limpeza de dados.
+- `js/modules/clock.js`: atualização automática de data e hora.
+- `js/modules/trade/`: lógica de trades com CRUD, validação e filtros.
+- `js/modules/events/index.js`: barramento de eventos entre módulos.
+- `js/modules/calendar/`: renderização do calendário, navegação entre meses e seleção de dias.
+- `js/modules/app.js`: fluxo de inicialização, eventos globais e refresh.
+
+### 3.3 Módulos presentes como esqueleto
+Os seguintes diretórios/módulos existem, mas estão sem implementação funcional no momento:
+- `js/modules/form/`
+- `js/modules/history/`
+- `js/modules/kpi/`
+- `js/modules/summary/`
+- `js/modules/charts/`
+- `js/modules/coach/`
+- `js/modules/propFirm/`
+
+## 4. Interface atual
+### 4.1 Header
+- `Trading Journal Pro`
+- `Performance Dashboard`
+- `#currentDate`
+- `#currentTime`
+
+### 4.2 KPIs
+Cartões exibindo:
+- `PNL Hoje`
+- `PNL Semana`
+- `PNL Mês`
+- `PNL Total`
+- `Win Rate`
+- `Payoff`
+- `Profit Factor`
+- `Drawdown`
+
+### 4.3 Calendário
+- Navegação entre meses com `#prevMonth` e `#nextMonth`
+- Grid de dias com `#calendar`
+- Labels dos dias da semana
+- Datas renderizadas com resultado do dia e número de trades
+
+### 4.4 Resumo Mensal
+- Dias Positivos
+- Dias Negativos
+- Dias OFF
+- Quantidade de Trades
+- Maior Gain
+- Maior Loss
+
+### 4.5 Gráficos
+- `Curva de Capital` com `#capitalChart`
+- `Performance` com seletor `#performanceFilter` e `#performanceChart`
+
+### 4.6 Formulário de trade
+Campos atuais:
+- data (`#tradeDate`)
+- conta (`#account`)
+- mercado (`#market`)
+- ativo (`#asset`)
+- setup (`#setup`)
+- compra/venda (`#side`)
+- contratos (`#contracts`)
+- resultado (`#result`)
+- observações (`#notes`)
+- botão `Salvar Trade`
+
+### 4.7 Coach
+- painel `#coachPanel` com mensagem padrão
+
+### 4.8 Histórico
+- tabela com cabeçalho `Data`, `Conta`, `Mercado`, `Ativo`, `Setup`, `Resultado`, `Ações`
+- corpo da tabela em `#historyTable`
+
+### 4.9 Prop Firm
+- painel `#propFirmPanel` com mensagem padrão
+
+## 5. Arquitetura técnica
+### 5.1 Fluxo de inicialização
+- `App.init()` é chamado em `DOMContentLoaded`
+- `Storage.load()` carrega dados do LocalStorage
+- `Clock.start()` dispara a atualização de data/hora a cada segundo
+- `Form.init()` inicializa o módulo de formulário
+- `App.events()` registra listeners globais de trade
+- `App.refresh()` atualiza a interface
+
+### 5.2 Gerenciamento de estado
+`State` mantém:
+- `trades`
+- `selectedDate`
+- `currentMonth`
+- `currentYear`
+- `performanceView`
+- `historyFilter`
+- `editingTradeId`
+- `propFirm` (configuração e estado da conta Prop Firm)
+
+### 5.3 LocalStorage
+Chave: `TradingJournalPro`
+Dados salvos:
+- trades
+- selectedDate
+- currentMonth
+- currentYear
+- performanceView
+
+Funcionalidades:
+- `load()`
+- `save()`
+- `clear()`
+- `exportData()`
+- `importData(json)`
+
+### 5.4 Eventos
+`Events.emit(eventName, detail)` e `Events.on(eventName, callback)` centralizam a comunicação entre módulos.
+
+Eventos usados até agora:
+- `trade:added`
+- `trade:updated`
+- `trade:removed`
+- `trade:duplicated`
+- `calendar:daySelected`
+- `calendar:monthChanged`
+
+### 5.5 Trade CRUD e filtros
+`TradeCRUD` implementa:
+- `add(trade)`
+- `update(id, data)`
+- `remove(id)`
+- `duplicate(id)`
+- `sort()`
+
+Trade model atual contém:
+- `id`
+- `createdAt`
+- `updatedAt`
+- `date`
+- `account`
+- `market`
+- `asset`
+- `setup`
+- `side`
+- `contracts`
+- `result`
+- `notes`
+
+Filtros implementados:
+- `getAll()`
+- `getById(id)`
+- `getByDate(date)`
+- `getByMonth(month, year)`
+- `getByYear(year)`
+- `getByAccount(account)`
+- `getByMarket(market)`
+- `getByAsset(asset)`
+- `getBySetup(setup)`
+- `getWinningTrades()`
+- `getLosingTrades()`
+
+### 5.6 Calendário
+O calendário atual renderiza:
+- dias do mês
+- espaços vazios antes do primeiro dia
+- cada dia com número, resultado e número de trades
+- indicação visual de dias positivos, negativos e OFF
+- seleção de dia com clique
+- navegação entre meses
+
+### 5.7 Clock
+- atualiza `#currentDate` e `#currentTime` a cada segundo
+- usa `toLocaleDateString("pt-BR")` e `toLocaleTimeString("pt-BR")`
+
+## 6. Status atual de desenvolvimento
+### 6.1 Implementado
+- `State` centralizado
+- `Storage` com persistência e import/export
+- `Clock` funcionando
+- `TradeCRUD` com validação, criação, edição, remoção e duplicação
+- filtros de trade robustos
+- calendário renderizado e navegável
+- arquitetura modular com diretórios de módulo
+- eventos globais para refresh
+
+### 6.2 Em andamento / pendente
+- `App.refresh()` ainda não chama todos os módulos previstos
+- `Calendar` não está completamente integrado em `app.js`
+- `Form` ainda não possui código de binding e submissão
+- `History` não está renderizando dados na tabela
+- `KPI`, `Summary`, `Charts`, `Coach`, `Prop Firm` ainda não possuem implementações ativas
+- validação de formulário e serialização de dados no módulo `form/` ainda estão vazias
+- não há UI de import/export de backup no HTML atual
+
+## 7. Ajustes atuais do roadmap
+### Sprint 1 — Fundação
+Status: em progresso
+- `State` ✅
+- `Storage` ✅
+- `Utils` (não identificado no corpo do módulo, mas há `js/modules/utils.js`) ✅
+- `Trade` ✅
+- `Clock` ✅
+- `Form` ⬜
+- `Refresh` parcial ✅
+
+### Sprint 2 — Dashboard Base
+Status: iniciado parcialmente
+- `History` ⬜
+- `Calendar` ✅
+- `KPI` ⬜
+- `Summary` ⬜
+- `Charts` ⬜
+
+### Sprint 3 — Inteligência
+Status: não iniciado
+- `Coach` ⬜
+- `PropFirm` ⬜
+
+### Sprint 4 — Qualidade
+Status: não iniciado
+- `Editar trade` ⬜
+- `Filtros` ⬜
+- `Backup JSON` ⬜
+- `Importação` ⬜
+- `Responsividade` ⬜
+- `Performance` ⬜
+
+### Sprint 5 — Versão 1.0
+Status: não iniciado
+- Todos os KPIs funcionando ⬜
+- Calendário completo ⬜
+- Gráficos ⬜
+- Coach ⬜
+- Prop Firm ⬜
+- Backup ⬜
+- Testes finais ⬜
+- Código limpo ⬜
+- Documentação completa ⬜
+
+## 8. Próximos passos recomendados
+1. Concluir `Form` com binding e submissão de trade.
+2. Implementar `History.render()` e popular `#historyTable`.
+3. Integrar o calendário ao `App.refresh()`.
+4. Criar `KPI.render()` e atualizar indicadores a partir dos trades.
+5. Implementar `Summary.render()` com métricas mensais.
+6. Desenvolver gráficos em `Charts` usando Chart.js.
+7. Adicionar `Coach` com insights simples.
+8. Construir painel `Prop Firm` com resultados importantes.
+9. Adicionar botões de export/import JSON no header.
+10. Ajustar `style.css` para garantir responsividade e consistência visual.
+
+## 9. Observações arquiteturais
+- A aplicação está organizada em módulos isolados por responsabilidade.
+- O padrão atual separa `State`, `Storage`, `Events`, `Trade`, `Calendar`, `Clock` e `App`.
+- Os módulos de UI ainda precisam ser conectados ao ciclo de refresh.
+- O `LocalStorage` guarda todo o estado relevante, permitindo persistência entre sessões.
+
+## 10. Regras de desenvolvimento mantidas
+- código simples e legível;
+- funções com responsabilidade única;
+- nomes de funções em português (quando aplicável);
+- evitar duplicação;
+- preferir módulos claros e separados.
+
+## 11. O que não está no escopo desta versão 1.0
+- login de usuários
+- backend
+- banco de dados externo
+- integração com corretoras
+- atualização em tempo real por API
+- múltiplas páginas
+- frameworks JavaScript externos
+- inteligência artificial de signals
+
+---
+
+> Este blueprint reflete o estado atual do projeto baseado no código existente em `index.html`, `js/app.js`, `js/modules/`, `style.css` e na documentação de status. Ele mostra o que já está pronto, o que está parcial e o que ainda falta integrar.
