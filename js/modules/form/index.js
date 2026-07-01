@@ -48,7 +48,7 @@ export const Form = {
 
     validate(data) {
 
-        return this.#execute(
+        return this.execute(
             FormValidation,
             [
                 "validate",
@@ -65,7 +65,7 @@ export const Form = {
 
     serialize(formElement) {
 
-        return this.#execute(
+        return this.execute(
             FormSerializer,
             [
                 "serialize",
@@ -76,29 +76,27 @@ export const Form = {
 
     },
 
-    /* ======================================================
-       EXECUTOR
-    ====================================================== */
+/* ======================================================
+   EXECUTOR
+====================================================== */
 
-    #execute(module, methods, ...args) {
+execute(module, methods, ...args) {
 
-        for (const method of methods) {
+    for (const method of methods) {
 
-            if (typeof module[method] === "function") {
+        if (typeof module[method] === "function") {
 
-                return module[method](...args);
-
-            }
+            return module[method](...args);
 
         }
 
-        console.warn(
-            "Form: nenhuma função encontrada em",
-            module
-        );
-
-        return null;
-
     }
 
-};
+    console.warn(
+        "Form: nenhuma função encontrada em",
+        module
+    );
+
+    return null;
+
+}
