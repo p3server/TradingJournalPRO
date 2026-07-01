@@ -1,138 +1,119 @@
-/**
- * FORM EVENTS MODULE
- *
- * Responsible for connecting
- * user interactions with form actions
- */
+/* ==========================================================
+   TRADING JOURNAL PRO
+   FORM
+   EVENTS.JS
+========================================================== */
 
+/*
+    Responsabilidade:
 
-import { initForm } from "./index.js";
+    - Registrar todos os eventos do formulário.
+    - Não valida dados.
+    - Não serializa dados.
+    - Não salva trades.
+    - Não manipula Storage.
+*/
 
-
-
-/**
- * Initialize form related events
- */
 export function initFormEvents() {
 
-
-    const form = document.querySelector("#tradeForm");
-
+    const form = document.getElementById("tradeForm");
 
     if (!form) {
 
-        console.warn(
-            "Trade form not found"
-        );
+        console.warn("Form: formulário não encontrado.");
 
         return;
 
     }
 
+    registerInputEvents(form);
 
-
-    initForm();
-
-
-
-    setupInputEvents();
-
-
-
-    setupButtonEvents();
-
+    registerResetButton();
 
 }
 
+/* ==========================================================
+   INPUTS
+========================================================== */
 
+function registerInputEvents(form) {
 
-/**
- * Input related events
- */
-function setupInputEvents() {
+    const fields = form.querySelectorAll(
 
+        "input, select, textarea"
 
-    const inputs = document.querySelectorAll(
-        "#tradeForm input, #tradeForm select, #tradeForm textarea"
     );
 
+    fields.forEach(field => {
 
+        field.addEventListener(
 
-    inputs.forEach(input => {
+            "input",
 
-
-        input.addEventListener(
-            "change",
             () => {
 
-
-                clearFieldError(input);
-
+                clearFieldError(field);
 
             }
 
         );
 
+        field.addEventListener(
+
+            "change",
+
+            () => {
+
+                clearFieldError(field);
+
+            }
+
+        );
 
     });
 
-
 }
 
+/* ==========================================================
+   RESET
+========================================================== */
 
+function registerResetButton() {
 
-/**
- * Button events
- */
-function setupButtonEvents() {
+    const button = document.getElementById("resetForm");
 
+    if (!button) {
 
-    const resetButton =
-        document.querySelector("#resetForm");
-
-
-
-    if (resetButton) {
-
-
-        resetButton.addEventListener(
-            "click",
-            () => {
-
-
-                const form =
-                    document.querySelector("#tradeForm");
-
-
-                if (form) {
-
-                    form.reset();
-
-                }
-
-
-            }
-
-        );
-
+        return;
 
     }
 
+    button.addEventListener(
 
+        "click",
+
+        () => {
+
+            const form = document.getElementById("tradeForm");
+
+            if (form) {
+
+                form.reset();
+
+            }
+
+        }
+
+    );
 
 }
 
+/* ==========================================================
+   CLEAR ERROR
+========================================================== */
 
-
-/**
- * Remove validation visual errors
- */
 function clearFieldError(field) {
 
-
-    field.classList.remove(
-        "error"
-    );
-
+    field.classList.remove("error");
 
 }
