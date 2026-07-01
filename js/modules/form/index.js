@@ -20,7 +20,7 @@ export const Form = {
 
     init() {
 
-        this.#execute(
+        this.execute(
             FormEvents,
             [
                 "init",
