@@ -4,7 +4,7 @@ MÓDULO
 
 Nome:
 
-coach
+history
 
 Quantidade de arquivos:
 
@@ -12,7 +12,7 @@ Quantidade de arquivos:
 
 Arquivo principal:
 
-[js/modules/coach/index.js](js/modules/coach/index.js)
+[js/modules/history/index.js](js/modules/history/index.js)
 
 =================================================
 
@@ -20,11 +20,11 @@ EXPORTS PÚBLICOS
 
 Nome
 
-Coach
+History
 
 Arquivo
 
-[js/modules/coach/index.js](js/modules/coach/index.js)
+[js/modules/history/index.js](js/modules/history/index.js)
 
 Tipo (const | function | class)
 
@@ -32,9 +32,13 @@ const
 
 Assinatura completa
 
-export const Coach = {
+export const History = {
 
     init() {
+
+    },
+
+    render() {
 
     },
 
@@ -42,31 +46,19 @@ export const Coach = {
 
     },
 
-    getDashboard(trades = []) {
+    filters: HistoryFilters,
 
-    },
-
-    getScore(trades = []) {
-
-    },
-
-    getAlerts(trades = []) {
-
-    },
-
-    getInsights(trades = []) {
-
-    }
+    actions: HistoryActions
 
 };
 
 Nome
 
-generateAlerts
+renderHistory
 
 Arquivo
 
-[js/modules/coach/alerts.js](js/modules/coach/alerts.js)
+[js/modules/history/render.js](js/modules/history/render.js)
 
 Tipo (const | function | class)
 
@@ -74,17 +66,17 @@ function
 
 Assinatura completa
 
-export function generateAlerts(trades = []) {
+export function renderHistory(trades) {
 
 }
 
 Nome
 
-generateInsights
+filterTrades
 
 Arquivo
 
-[js/modules/coach/insights.js](js/modules/coach/insights.js)
+[js/modules/history/filters.js](js/modules/history/filters.js)
 
 Tipo (const | function | class)
 
@@ -92,17 +84,17 @@ function
 
 Assinatura completa
 
-export function generateInsights(trades = []) {
+export function filterTrades(trades, filters = {}) {
 
 }
 
 Nome
 
-calculateScore
+deleteTrade
 
 Arquivo
 
-[js/modules/coach/score.js](js/modules/coach/score.js)
+[js/modules/history/actions.js](js/modules/history/actions.js)
 
 Tipo (const | function | class)
 
@@ -110,7 +102,43 @@ function
 
 Assinatura completa
 
-export function calculateScore(trades = []) {
+export function deleteTrade(id) {
+
+}
+
+Nome
+
+duplicateHistoryTrade
+
+Arquivo
+
+[js/modules/history/actions.js](js/modules/history/actions.js)
+
+Tipo (const | function | class)
+
+function
+
+Assinatura completa
+
+export function duplicateHistoryTrade(id) {
+
+}
+
+Nome
+
+editTrade
+
+Arquivo
+
+[js/modules/history/actions.js](js/modules/history/actions.js)
+
+Tipo (const | function | class)
+
+function
+
+Assinatura completa
+
+export function editTrade(id) {
 
 }
 
@@ -120,11 +148,13 @@ USO DOS EXPORTS
 
 Nome
 
-Coach
+History
 
 É utilizado por outro módulo?
 
 SIM
+
+Caso SIM informe:
 
 Arquivo
 
@@ -132,93 +162,89 @@ Arquivo
 
 Função
 
-init()
+init(), refresh()
 
 Quantidade de chamadas
 
-1
+2
 
 Nome
 
-generateAlerts
+renderHistory
 
 É utilizado por outro módulo?
 
-SIM
-
-Arquivo
-
-[js/modules/coach/index.js](js/modules/coach/index.js)
-
-Função
-
-getDashboard()
-
-Quantidade de chamadas
-
-1
+NÃO
 
 Nome
 
-generateInsights
+filterTrades
 
 É utilizado por outro módulo?
 
-SIM
-
-Arquivo
-
-[js/modules/coach/index.js](js/modules/coach/index.js)
-
-Função
-
-getDashboard()
-
-Quantidade de chamadas
-
-1
+NÃO
 
 Nome
 
-calculateScore
+deleteTrade
 
 É utilizado por outro módulo?
 
-SIM
+NÃO
 
-Arquivo
+Nome
 
-[js/modules/coach/index.js](js/modules/coach/index.js)
+duplicateHistoryTrade
 
-Função
+É utilizado por outro módulo?
 
-getDashboard()
+NÃO
 
-Quantidade de chamadas
+Nome
 
-1
+editTrade
+
+É utilizado por outro módulo?
+
+NÃO
 
 =================================================
 
 EXPORTS NÃO UTILIZADOS
 
-NENHUM
+renderHistory
+
+filterTrades
+
+deleteTrade
+
+duplicateHistoryTrade
+
+editTrade
 
 =================================================
 
 API PÚBLICA DO MÓDULO
 
-Coach.init()
+History.init()
 
-Coach.refresh()
+History.render()
 
-Coach.getDashboard()
+History.refresh()
 
-Coach.getScore()
+History.filters
 
-Coach.getAlerts()
+History.actions
 
-Coach.getInsights()
+renderHistory()
+
+filterTrades()
+
+deleteTrade()
+
+duplicateHistoryTrade()
+
+editTrade()
 
 =================================================
 
@@ -226,12 +252,12 @@ RESUMO
 
 Quantidade de exports
 
-4
+6
 
 Quantidade de exports utilizados
 
-4
+1
 
 Quantidade de exports não utilizados
 
-0
+5
