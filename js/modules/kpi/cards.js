@@ -84,7 +84,6 @@ export function calculateKPI(trades = []) {
             )
 
     };
-
 }
 
 function calculateTradeResult(trade) {
