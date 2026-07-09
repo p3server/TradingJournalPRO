@@ -1,0 +1,48 @@
+/**
+ * HISTORY RENDER MODULE
+ *
+ * Responsible only for rendering
+ * trade history on screen
+ */
+
+export function renderHistory(trades) {
+    const container = document.querySelector("#historyTable");
+
+    if (!container) {
+        console.warn("History container not found");
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (!trades || trades.length === 0) {
+        container.innerHTML = `
+            <tr>
+                <td colspan="7">Nenhuma operação registrada.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    trades.forEach(trade => {
+        container.appendChild(createHistoryItem(trade));
+    });
+}
+
+function createHistoryItem(trade) {
+    const element = document.createElement("tr");
+
+    element.dataset.id = trade.id || "";
+
+    element.innerHTML = `
+        <td>${trade.date || "-"}</td>
+        <td>${trade.account || "-"}</td>
+        <td>${trade.market || "-"}</td>
+        <td>${trade.asset || "-"}</td>
+        <td>${trade.setup || "-"}</td>
+        <td>${trade.result ?? "-"}</td>
+        <td>—</td>
+    `;
+
+    return element;
+}

@@ -49,6 +49,7 @@ export const KPI = {
             KPIRender,
             [
                 "render",
+                "renderKPICards",
                 "update",
                 "refresh"
             ],

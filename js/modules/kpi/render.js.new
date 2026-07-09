@@ -1,0 +1,31 @@
+/**
+ * KPI RENDER MODULE
+ *
+ * Responsible for rendering KPI cards
+ */
+
+function updateText(id, value) {
+    const element = document.getElementById(id);
+
+    if (element) {
+        element.textContent = value;
+    }
+}
+
+function formatCurrency(value) {
+    return Number(value).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
+
+export function renderKPICards(kpi) {
+    updateText("kpiToday", formatCurrency(kpi.profit ?? 0));
+    updateText("kpiWeek", formatCurrency(kpi.profit ?? 0));
+    updateText("kpiMonth", formatCurrency(kpi.profit ?? 0));
+    updateText("kpiTotal", formatCurrency(kpi.profit ?? 0));
+    updateText("kpiWinRate", `${kpi.winRate ?? 0}%`);
+    updateText("kpiPayoff", kpi.average ?? 0);
+    updateText("kpiProfitFactor", kpi.average ?? 0);
+    updateText("kpiDrawdown", formatCurrency(kpi.profit ?? 0));
+}

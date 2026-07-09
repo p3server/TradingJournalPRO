@@ -33,7 +33,7 @@ export const Summary = {
 
         const trades = State.getTrades();
 
-        this.execute(
+        const monthly = this.execute(
             MonthlySummary,
             [
                 "render",
@@ -45,7 +45,7 @@ export const Summary = {
             trades
         );
 
-        this.execute(
+        const yearly = this.execute(
             YearlySummary,
             [
                 "render",
@@ -57,6 +57,8 @@ export const Summary = {
             trades
         );
 
+        this.renderSummary(monthly, yearly);
+
     },
 
     /* ======================================================
@@ -66,6 +68,49 @@ export const Summary = {
     refresh() {
 
         this.render();
+
+    },
+
+    /* ======================================================
+       RENDER SUMMARY
+    ====================================================== */
+
+    renderSummary(monthly, yearly) {
+
+        const positiveDays = document.getElementById("positiveDays");
+        const negativeDays = document.getElementById("negativeDays");
+        const offDays = document.getElementById("offDays");
+        const tradeCount = document.getElementById("tradeCount");
+        const bestDay = document.getElementById("bestDay");
+        const worstDay = document.getElementById("worstDay");
+
+        if (positiveDays) {
+            positiveDays.textContent = monthly?.wins ?? 0;
+        }
+
+        if (negativeDays) {
+            negativeDays.textContent = monthly?.losses ?? 0;
+        }
+
+        if (offDays) {
+            offDays.textContent = 0;
+        }
+
+        if (tradeCount) {
+            tradeCount.textContent = monthly?.totalTrades ?? 0;
+        }
+
+        if (bestDay) {
+            bestDay.textContent = monthly?.profit > 0
+                ? `$${Number(monthly.profit).toFixed(2)}`
+                : "$0.00";
+        }
+
+        if (worstDay) {
+            worstDay.textContent = monthly?.profit < 0
+                ? `$${Number(Math.abs(monthly.profit)).toFixed(2)}`
+                : "$0.00";
+        }
 
     },
 

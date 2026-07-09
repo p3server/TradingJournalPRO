@@ -32,11 +32,37 @@ export const Coach = {
 
     refresh() {
 
-        return this.getDashboard(
+        const dashboard = this.getDashboard(
 
             State.getTrades()
 
         );
+
+        this.renderDashboard(dashboard);
+
+        return dashboard;
+
+    },
+
+    /* ======================================================
+       RENDER DASHBOARD
+    ====================================================== */
+
+    renderDashboard(dashboard) {
+
+        const panel = document.getElementById("coachPanel");
+
+        if (!panel) {
+
+            return;
+
+        }
+
+        panel.innerHTML = `
+            <div>Score: ${dashboard.score ?? 0}</div>
+            <div>Alertas: ${dashboard.alerts?.length ?? 0}</div>
+            <div>Insights: ${dashboard.insights?.length ?? 0}</div>
+        `;
 
     },
 

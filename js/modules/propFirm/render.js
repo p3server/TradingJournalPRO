@@ -15,40 +15,22 @@ export const PropFirmRender = {
     render() {
 
         const data = PropFirmCalculations.getStatus();
+        const panel = document.getElementById("propFirmPanel");
 
-        this.updateValue(
-            "prop-profit",
-            this.formatCurrency(data.currentProfit)
-        );
+        if (!panel) {
 
-        this.updateValue(
-            "prop-target",
-            this.formatCurrency(data.remainingTarget)
-        );
+            return;
 
-        this.updateValue(
-            "prop-drawdown",
-            this.formatCurrency(data.remainingDrawdown)
-        );
+        }
 
-        this.updateValue(
-            "prop-days",
-            data.tradingDays
-        );
-
-        this.updateValue(
-            "prop-status",
-            data.targetReached
-                ? "Aprovado"
-                : "Em Avaliação"
-        );
-
-        this.updateValue(
-            "prop-daily-loss",
-            data.dailyLossExceeded
-                ? "Limite Excedido"
-                : "OK"
-        );
+        panel.innerHTML = `
+            <div>Lucro atual: ${this.formatCurrency(data.currentProfit)}</div>
+            <div>Meta restante: ${this.formatCurrency(data.remainingTarget)}</div>
+            <div>Drawdown restante: ${this.formatCurrency(data.remainingDrawdown)}</div>
+            <div>Dias operados: ${data.tradingDays}</div>
+            <div>Status: ${data.targetReached ? "Aprovado" : "Em Avaliação"}</div>
+            <div>Limite diário: ${data.dailyLossExceeded ? "Limite Excedido" : "OK"}</div>
+        `;
 
     },
 

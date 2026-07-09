@@ -38,7 +38,19 @@ export function validateForm(data) {
         errors.push("Setup is required");
     }
 
+    const normalizedSide = typeof data.side === "string"
+        ? data.side.trim().toUpperCase()
+        : data.side;
+
     const validSides = ["BUY", "SELL"];
+
+    if (normalizedSide === "COMPRA") {
+        data.side = "BUY";
+    } else if (normalizedSide === "VENDA") {
+        data.side = "SELL";
+    } else if (normalizedSide === "BUY" || normalizedSide === "SELL") {
+        data.side = normalizedSide;
+    }
 
     if (!validSides.includes(data.side)) {
         errors.push("Trade side is required");
