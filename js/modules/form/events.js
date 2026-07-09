@@ -4,6 +4,10 @@
    EVENTS.JS
 ========================================================== */
 
+import { validateForm } from "./validation.js";
+import { serializeForm } from "./serializer.js";
+import { Trade } from "../trade/index.js";
+
 /*
     Responsabilidade:
 
@@ -29,6 +33,8 @@ export function initFormEvents() {
     registerInputEvents(form);
 
     registerResetButton();
+
+    registerSubmitHandler(form);
 
 }
 
@@ -105,6 +111,56 @@ function registerResetButton() {
         }
 
     );
+
+}
+
+/* ==========================================================
+   SUBMIT
+========================================================== */
+
+function registerSubmitHandler(form) {
+
+    form.addEventListener(
+
+        "submit",
+
+        event => handleSubmit(event)
+
+    );
+
+}
+
+function handleSubmit(event) {
+
+    event.preventDefault();
+
+    const form = event.currentTarget;
+
+    const fields = {};
+
+    form.querySelectorAll("input, select, textarea").forEach(control => {
+
+        const key = control.name || control.id;
+
+        if (key) {
+
+            fields[key] = control.value;
+
+        }
+
+    });
+
+    const validation = validateForm(fields);
+
+    if (!validation.valid) {
+
+        return null;
+
+    }
+
+    const trade = serializeForm(form);
+
+    return Trade.add(trade);
 
 }
 
